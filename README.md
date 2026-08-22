@@ -11,11 +11,11 @@
 </p>
 
 <p align="center">
-  <img alt="نسخه افزونه" src="https://img.shields.io/badge/نسخه-1.0.0-10b981?style=flat-square">
+  <img alt="نسخه افزونه" src="https://img.shields.io/badge/Version-1.0.0-10b981?style=flat-square">
   <img alt="وردپرس" src="https://img.shields.io/badge/WordPress-6.0%2B-21759B?style=flat-square&logo=wordpress&logoColor=white">
   <img alt="ووکامرس" src="https://img.shields.io/badge/WooCommerce-7.0%2B-96588A?style=flat-square&logo=woocommerce&logoColor=white">
   <img alt="PHP" src="https://img.shields.io/badge/PHP-7.4%2B-777BB4?style=flat-square&logo=php&logoColor=white">
-  <img alt="مجوز" src="https://img.shields.io/badge/مجوز-GPL--3.0-0a1b15?style=flat-square">
+  <img alt="مجوز" src="https://img.shields.io/badge/License-GPL--3.0-0a1b15?style=flat-square">
 </p>
 
 <p align="center">
@@ -227,7 +227,7 @@
 ساخته‌شده برای فروشگاه‌های ایرانی ووکامرس ·
 <a href="https://variza.ir">variza.ir</a> ·
 <a href="https://variza.ir/faq">سوالات متداول</a> ·
-<a href="https://variza.ir/panel/support">پشتیبانی</a>
+<a href="https://variza.ir/contact">پشتیبانی</a>
 </p>
 
 </div>
