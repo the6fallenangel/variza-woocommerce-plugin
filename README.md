@@ -4,7 +4,7 @@
   <img src="assets/img/variza-logo.webp" alt="واریزا" width="220">
 </p>
 
-<h1 align="center">واریزا برای ووکامرس</h1>
+<h1 align="center">Variza for WooCommerce</h1>
 
 <p align="center">
   درگاه پرداخت کارت‌به‌کارت با <b>تأیید خودکار</b> سفارش — بدون بررسی دستی، بدون ارسال رسید، بدون معطلی مشتری

@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name:       واریزا برای ووکامرس
- * Plugin URI:        https://variza.ir
+ * Plugin Name:       Variza for WooCommerce
+ * Plugin URI:        https://github.com/the6fallenangel/variza-woocommerce-plugin
  * Description:       درگاه پرداخت کارت‌به‌کارت واریزا با تأیید خودکار سفارش؛ بدون نیاز به بررسی دستی. پس از واریز، سفارش به‌صورت خودکار تأیید و «پرداخت‌شده» می‌شود.
  * Version:           1.0.0
- * Author:            واریزا
+ * Author:            Variza
  * Author URI:        https://variza.ir
  * License:           GPL-3.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
