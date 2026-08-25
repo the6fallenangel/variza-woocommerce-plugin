@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       Variza for WooCommerce
  * Plugin URI:        https://github.com/the6fallenangel/variza-woocommerce-plugin
- * Description:       درگاه پرداخت کارت‌به‌کارت واریزا با تأیید خودکار سفارش؛ بدون نیاز به بررسی دستی. پس از واریز، سفارش به‌صورت خودکار تأیید و «پرداخت‌شده» می‌شود.
- * Version:           1.0.0
+ * Description:       Card-to-card (bank transfer) payment gateway with fully automatic order verification. Once the customer transfers the exact amount, the order is automatically marked as paid — no manual receipt review required.
+ * Version:           1.0.1
  * Author:            Variza
  * Author URI:        https://variza.ir
  * License:           GPL-3.0-or-later
@@ -12,6 +12,7 @@
  * Domain Path:       /languages
  * Requires at least: 6.0
  * Requires PHP:      7.4
+ * Requires Plugins:  woocommerce
  * WC requires at least: 7.0
  * WC tested up to:   9.5
  */
@@ -21,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 define( 'VARIZA_PLUGIN_FILE', __FILE__ );
 define( 'VARIZA_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VARIZA_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'VARIZA_VERSION', '1.0.0' );
+define( 'VARIZA_VERSION', '1.0.1' );
 define( 'VARIZA_API_BASE_URL', 'https://variza.ir/api/v1' );
 
 define( 'VARIZA_LOGO_URL', VARIZA_PLUGIN_URL . 'assets/img/variza-logo.webp' );
@@ -65,6 +66,6 @@ function variza_missing_woocommerce_notice() {
 	}
 
 	echo '<div class="notice notice-error"><p>'
-		. esc_html__( 'افزونه «واریزا برای ووکامرس» برای کار کردن نیاز به نصب و فعال‌سازی ووکامرس دارد.', 'variza-for-woocommerce' )
+		. esc_html__( 'Variza for WooCommerce requires WooCommerce to be installed and activated.', 'variza-for-woocommerce' )
 		. '</p></div>';
 }

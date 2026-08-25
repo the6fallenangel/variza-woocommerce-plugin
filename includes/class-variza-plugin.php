@@ -73,9 +73,7 @@ class Variza_Plugin {
 		add_action( 'admin_menu', array( $this, 'register_admin_menu' ) );
 		add_action( 'admin_post_variza_save_settings', array( $this, 'save_admin_settings' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
-		add_action( 'admin_head', array( $this, 'admin_menu_icon_fix' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'checkout_styles' ) );
-		add_action( 'init', array( $this, 'load_textdomain' ) );
 	}
 
 	public function register_gateway( $gateways ) {
@@ -135,21 +133,30 @@ class Variza_Plugin {
 
 	}
 
+	/**
+	 * Registers and enqueues all admin-side CSS/JS for this plugin.
+	 * - A small, always-loaded style that fixes the admin-menu icon sizing on every admin screen.
+	 * - The full settings-page style/script, only loaded on the plugin's own settings screen.
+	 */
 	public function admin_styles( $hook ) {
-		if ( 'toplevel_page_variza' !== $hook ) {
+		wp_register_style( 'variza-admin-menu', false, array(), VARIZA_VERSION );
+		wp_enqueue_style( 'variza-admin-menu' );
+		wp_add_inline_style(
+			'variza-admin-menu',
+			'#toplevel_page_variza .wp-menu-image img{width:20px !important;height:20px !important;object-fit:contain;padding:7px 0 !important;display:block;margin:0 auto;}'
+		);
+
+		if ( 'toplevel_page_variza' !== $hook || ! class_exists( 'Variza_Admin' ) ) {
 			return;
 		}
 
 		wp_register_style( 'variza-admin', false, array(), VARIZA_VERSION );
 		wp_enqueue_style( 'variza-admin' );
-		wp_add_inline_style(
-			'variza-admin',
-			'#toplevel_page_variza .wp-menu-image img{width:20px !important;height:20px !important;object-fit:contain;padding:7px 0;}'
-		);
-	}
+		wp_add_inline_style( 'variza-admin', Variza_Admin::css() );
 
-	public function admin_menu_icon_fix() {
-		echo '<style id="variza-menu-icon-fix">#adminmenu #toplevel_page_variza .wp-menu-image img{width:20px !important;height:20px !important;object-fit:contain;padding:7px 0 !important;display:block;margin:0 auto;}</style>';
+		wp_register_script( 'variza-admin', false, array(), VARIZA_VERSION, true );
+		wp_enqueue_script( 'variza-admin' );
+		wp_add_inline_script( 'variza-admin', Variza_Admin::js() );
 	}
 
 	public function checkout_styles() {
@@ -232,9 +239,5 @@ class Variza_Plugin {
 		$order_id  = wc_get_order_id_by_order_key( $order_key );
 
 		return $order_id ? wc_get_order( $order_id ) : null;
-	}
-
-	public function load_textdomain() {
-		load_plugin_textdomain( 'variza-for-woocommerce', false, dirname( plugin_basename( VARIZA_PLUGIN_FILE ) ) . '/languages' );
 	}
 }

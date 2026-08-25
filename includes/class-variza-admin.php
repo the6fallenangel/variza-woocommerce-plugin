@@ -45,8 +45,6 @@ class Variza_Admin {
 		echo '</div>';
 		echo '</div>';
 
-		echo '<style>' . self::css() . '</style>';
-		echo '<script>' . self::js() . '</script>';
 		echo '</div>';
 	}
 
@@ -217,10 +215,13 @@ class Variza_Admin {
 		exit;
 	}
 
-	private static function css() {
+	/**
+	 * Returns the settings-page CSS as a string, for use with wp_add_inline_style().
+	 * Uses the system/Tahoma fallback stack only — no remote font is loaded.
+	 */
+	public static function css() {
 		return '
-		@import url(\'https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css\');
-		.wrap.variza-admin{max-width:none !important;width:100% !important;margin:16px 0 0 0 !important;padding-left:20px;box-sizing:border-box;font-family:Vazirmatn,Tahoma,sans-serif;}
+		.wrap.variza-admin{max-width:none !important;width:100% !important;margin:16px 0 0 0 !important;padding-left:20px;box-sizing:border-box;font-family:Tahoma,Arial,sans-serif;}
 		.variza-admin .notice, .variza-admin .updated, .variza-admin .error, .variza-admin .is-dismissible, .variza-admin + .notice, .variza-admin + .updated{ display:none !important; }
 		.variza-admin__form[data-enhanced] .notice, .variza-admin__form[data-enhanced] .updated, .variza-admin__form[data-enhanced] .error { display:none !important; }
 		.variza-admin *{box-sizing:border-box;font-family:inherit;}
@@ -319,7 +320,10 @@ class Variza_Admin {
 		';
 	}
 
-	private static function js() {
+	/**
+	 * Returns the settings-page JS as a string, for use with wp_add_inline_script().
+	 */
+	public static function js() {
 		return '
 		(function () {
 			var card = document.getElementById("variza-steps");
