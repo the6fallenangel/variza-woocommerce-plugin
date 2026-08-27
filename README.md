@@ -14,6 +14,9 @@
   <img alt="نسخه افزونه" src="https://img.shields.io/badge/Version-1.0.0-10b981?style=flat-square">
   <img alt="وردپرس" src="https://img.shields.io/badge/WordPress-6.0%2B-21759B?style=flat-square&logo=wordpress&logoColor=white">
   <img alt="ووکامرس" src="https://img.shields.io/badge/WooCommerce-7.0%2B-96588A?style=flat-square&logo=woocommerce&logoColor=white">
+  <a href="https://wordpress.org/plugins/variza-for-woocommerce/">
+  <img alt="وردپرس دایرکتوری" src="https://img.shields.io/wordpress/plugin/v/variza-for-woocommerce?style=flat-square&label=WordPress.org&color=21759B">
+</a>
   <img alt="PHP" src="https://img.shields.io/badge/PHP-7.4%2B-777BB4?style=flat-square&logo=php&logoColor=white">
   <img alt="مجوز" src="https://img.shields.io/badge/License-GPL--3.0-0a1b15?style=flat-square">
 </p>
@@ -22,6 +25,7 @@
   <a href="#-نصب">نصب</a> ·
   <a href="#-راه‌اندازی-در-۴-گام">راه‌اندازی</a> ·
   <a href="#-نحوه-کار-درگاه">نحوه کار</a> ·
+  <a href="https://wordpress.org/plugins/variza-for-woocommerce/">صفحه‌ی رسمی در وردپرس</a> ·
   <a href="#-برای-توسعه‌دهنده‌ها">برای توسعه‌دهنده‌ها</a> ·
   <a href="#-رفع-اشکال">رفع اشکال</a> ·
   <a href="#-سوالات-متداول">سوالات متداول</a>
@@ -58,9 +62,17 @@
 
 ## 📦 نصب
 
-### از طریق آپلود در پیشخوان (پیشنهادی)
+### از طریق جست‌وجو در پیشخوان (پیشنهادی)
 
-۱. فایل فشرده‌ی افزونه را از مخزن پروژه دانلود کنید.
+۱. در پیشخوان وردپرس به مسیر **افزونه‌ها ← افزودن** بروید.
+۲. عبارت «Variza» را جست‌وجو کنید.
+۳. روی «نصب» و سپس «فعال‌سازی» کلیک کنید.
+
+می‌توانید افزونه را همچنین از [صفحه‌ی رسمی آن در دایرکتوری وردپرس](https://wordpress.org/plugins/variza-for-woocommerce/) مشاهده و دانلود کنید.
+
+### از طریق آپلود فایل فشرده
+
+۱. فایل زیپ افزونه را از [صفحه‌ی دانلود در دایرکتوری وردپرس](https://wordpress.org/plugins/variza-for-woocommerce/) یا از مخزن این پروژه دانلود کنید.
 ۲. در پیشخوان وردپرس به مسیر **افزونه‌ها ← افزودن ← بارگذاری افزونه** بروید.
 ۳. فایل زیپ را انتخاب و نصب کنید، سپس افزونه را فعال کنید.
 
