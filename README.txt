@@ -4,7 +4,7 @@ Tags: payment gateway, woocommerce, card to card, iran, bank transfer
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -72,6 +72,9 @@ No; set the currency unit to "Rial" in the plugin settings and the amount will a
 More answers at [variza.ir/faq](https://variza.ir/faq).
 
 == Changelog ==
+
+= 1.1.0 =
+* Add "Smart load distribution" option (random card with least daily transactions) in gateway settings — sends `card_last_4: random` to API. Off by default, requires plan with random card feature and at least 2 active cards.
 
 = 1.0.1 =
 * Compliance fixes from WordPress.org plugin review: English readme, documented external service usage, removed remote font loading, properly enqueued admin CSS/JS, removed load_plugin_textdomain(), added Requires Plugins header.

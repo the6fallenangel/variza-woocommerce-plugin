@@ -11,9 +11,10 @@ class Variza_API_Client {
 	}
 
 	/**
+	 * @param string|null $card_last_4 4 digits of the destination card or 'random' for least-load selection.
 	 * @return array{slug:string,pay_url:string,amount:int,return_url:string,expires_at:string|null}|WP_Error
 	 */
-	public function create_payment_link( $amount, $return_url, $title = '' ) {
+	public function create_payment_link( $amount, $return_url, $title = '', $card_last_4 = null ) {
 		$base_url = trailingslashit( apply_filters( 'variza_api_base_url', VARIZA_API_BASE_URL ) );
 		$body     = array(
 			'amount'     => (int) $amount,
@@ -22,6 +23,10 @@ class Variza_API_Client {
 
 		if ( '' !== $title ) {
 			$body['title'] = mb_substr( $title, 0, 255 );
+		}
+
+		if ( null !== $card_last_4 && '' !== $card_last_4 ) {
+			$body['card_last_4'] = $card_last_4;
 		}
 
 		$expires = apply_filters( 'variza_link_expires_in', '1h' );

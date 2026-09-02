@@ -78,6 +78,14 @@ class Variza_Gateway extends WC_Payment_Gateway {
 				'description' => __( 'قیمت‌های فروشگاه شما با کدام واحد نمایش داده می‌شود؟ واریزا فقط تومان می‌پذیرد؛ مبالغ ریالی به‌صورت خودکار به تومان تبدیل می‌شوند (÷۱۰).', 'variza-for-woocommerce' ),
 				'desc_tip'    => true,
 			),
+			'enable_random_card' => array(
+				'title'       => __( 'توزیع هوشمند بار', 'variza-for-woocommerce' ),
+				'type'        => 'checkbox',
+				'label'       => __( 'فعال‌سازی کارت تصادفی با کمترین تراکنش روزانه', 'variza-for-woocommerce' ),
+				'description' => __( 'با فعال‌سازی، پرداخت‌ها به‌صورت خودکار بین کارت‌های فعال شما با کمترین تراکنش موفق امروز پخش می‌شوند (در صورت تساوی، تصادفی). نیازمند پلن دارای قابلیت «کارت تصادفی» و حداقل ۲ کارت فعال؛ در غیر این صورت پرداخت با خطا مواجه می‌شود.', 'variza-for-woocommerce' ),
+				'default'     => 'no',
+				'desc_tip'    => false,
+			),
 		);
 	}
 
@@ -114,8 +122,10 @@ class Variza_Gateway extends WC_Payment_Gateway {
 		$return_url = $this->get_return_url( $order );
 		$title      = sprintf( __( 'سفارش #%s', 'variza-for-woocommerce' ), $order->get_order_number() );
 
+		$card_last_4 = 'yes' === $this->get_option( 'enable_random_card', 'no' ) ? 'random' : null;
+
 		$client = new Variza_API_Client( $token );
-		$link   = $client->create_payment_link( $amount, $return_url, $title );
+		$link   = $client->create_payment_link( $amount, $return_url, $title, $card_last_4 );
 
 		if ( is_wp_error( $link ) ) {
 			self::log(
