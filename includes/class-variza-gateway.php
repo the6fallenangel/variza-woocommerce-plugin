@@ -122,7 +122,7 @@ class Variza_Gateway extends WC_Payment_Gateway {
 		$return_url = $this->get_return_url( $order );
 		$title      = sprintf( __( 'سفارش #%s', 'variza-for-woocommerce' ), $order->get_order_number() );
 
-		$card_last_4 = 'yes' === $this->get_option( 'enable_random_card', 'no' ) ? 'random' : null;
+		$card_last_4 = self::resolve_card_last_4( $this );
 
 		$client = new Variza_API_Client( $token );
 		$link   = $client->create_payment_link( $amount, $return_url, $title, $card_last_4 );
@@ -171,6 +171,36 @@ class Variza_Gateway extends WC_Payment_Gateway {
 			'result'   => 'success',
 			'redirect' => $link['pay_url'],
 		);
+	}
+
+	/**
+	 * Which destination card should WooCommerce orders use?
+	 * Reads the card mode from the Variza admin page, falling back to the
+	 * legacy gateway toggle for stores that never saved the new setting.
+	 *
+	 * @return string|null 'random', 'variza', 4 digits, or null (first active card).
+	 */
+	private static function resolve_card_last_4( $gateway ) {
+		$stored   = get_option( Variza_Admin::OPTION, array() );
+		$settings = is_array( $stored ) ? $stored : array();
+
+		if ( ! array_key_exists( 'card_mode', $settings ) ) {
+			return 'yes' === $gateway->get_option( 'enable_random_card', 'no' ) ? 'random' : null;
+		}
+
+		$mode = $settings['card_mode'];
+
+		if ( 'variza' === $mode ) {
+			return 'variza';
+		}
+
+		if ( 'random' === $mode ) {
+			return 'random';
+		}
+
+		$last_4 = isset( $settings['card_last_4'] ) ? preg_replace( '/\D/', '', (string) $settings['card_last_4'] ) : '';
+
+		return ( is_string( $last_4 ) && 4 === strlen( $last_4 ) ) ? $last_4 : null;
 	}
 
 	private function fail_payment( $order, $message ) {

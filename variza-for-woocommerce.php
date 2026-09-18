@@ -3,7 +3,7 @@
  * Plugin Name:       Variza for WooCommerce
  * Plugin URI:        https://github.com/the6fallenangel/variza-woocommerce-plugin
  * Description:       Card-to-card (bank transfer) payment gateway with fully automatic order verification. Once the customer transfers the exact amount, the order is automatically marked as paid — no manual receipt review required.
- * Version:           1.1.0
+ * Version:           1.2.0
  * Author:            Variza
  * Author URI:        https://variza.ir
  * License:           GPL-3.0-or-later

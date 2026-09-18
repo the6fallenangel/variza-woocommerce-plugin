@@ -16,6 +16,7 @@ class Variza_Admin {
 		$has_token  = ! empty( $settings['api_token'] ?? '' );
 		$has_secret = ! empty( $settings['webhook_secret'] ?? '' );
 		$unit       = $settings['currency_unit'] ?? 'toman';
+		$card_mode  = $settings['card_mode'] ?? 'specific';
 		$gateway    = new Variza_Gateway();
 		$webhook    = $gateway->webhook_url();
 		$saved      = isset( $_GET['settings-updated'] ) && '1' === $_GET['settings-updated']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -34,7 +35,7 @@ class Variza_Admin {
 
 		echo '<div class="variza-admin__grid">';
 		echo '<div class="variza-admin__col variza-admin__col--main">';
-		self::render_settings_form( $enabled, $unit, $settings );
+		self::render_settings_form( $enabled, $unit, $settings, $card_mode );
 		self::render_faq();
 		echo '</div>';
 
@@ -74,7 +75,7 @@ class Variza_Admin {
 		echo '</div>';
 	}
 
-	private static function render_settings_form( $enabled, $unit, $settings ) {
+	private static function render_settings_form( $enabled, $unit, $settings, $card_mode = 'specific' ) {
 		$token  = $settings['api_token'] ?? '';
 		$secret = $settings['webhook_secret'] ?? '';
 
@@ -112,8 +113,40 @@ class Variza_Admin {
 		echo '<p class="variza-admin__hint">واریزا فقط تومان می‌پذیرد؛ ریال خودکار به تومان تبدیل می‌شود (÷۱۰).</p>';
 		echo '</div>';
 
+		self::render_card_section( $card_mode, $settings );
+
 		submit_button( 'ذخیره', 'primary', 'submit', true );
 		echo '</form>';
+	}
+
+	private static function render_card_section( $card_mode, $settings ) {
+		$last_4 = $settings['card_last_4'] ?? '';
+		$modes  = array(
+			'specific' => 'کارت مشخص',
+			'random'   => 'کارت تصادفی، کمترین تراکنش',
+			'variza'   => 'کارت‌های واریزا',
+		);
+
+		echo '<div class="variza-admin__card">';
+		echo '<h2>کارت مقصد سفارش‌ها</h2>';
+		echo '<p class="variza-admin__hint">مشخص کنید مبلغ سفارش‌های ووکامرس به کدام کارت واریز شود.</p>';
+
+		echo '<div class="variza-admin__field">';
+		echo '<label for="variza_card_mode">حالت انتخاب کارت</label>';
+		echo '<select id="variza_card_mode" name="variza_card_mode">';
+		foreach ( $modes as $value => $label ) {
+			echo '<option value="' . esc_attr( $value ) . '" ' . selected( $card_mode, $value, false ) . '>' . esc_html( $label ) . '</option>';
+		}
+		echo '</select>';
+		echo '<p class="variza-admin__hint">کارت تصادفی بین کارت‌های فعال با کمترین تراکنش موفق امروز پخش می‌کند. کارت‌های واریزا نیازی به کارت بانکی ندارد و کیف‌پول شما را شارژ می‌کند.</p>';
+		echo '</div>';
+
+		echo '<div class="variza-admin__field" id="variza_last4_wrap"' . ( 'specific' === $card_mode ? '' : ' style="display:none"' ) . '>';
+		echo '<label for="variza_card_last_4">چهار رقم آخر کارت</label>';
+		echo '<input type="text" id="variza_card_last_4" name="variza_card_last_4" value="' . esc_attr( $last_4 ) . '" inputmode="numeric" maxlength="4" placeholder="مثلا 1234" dir="ltr" />';
+		echo '<p class="variza-admin__hint">دقیقاً ۴ رقم آخر کارتی که در پنل واریزا ثبت کرده‌اید. خالی بگذارید تا اولین کارت فعال استفاده شود.</p>';
+		echo '</div>';
+		echo '</div>';
 	}
 
 	private static function render_webhook_card( $webhook, $has_secret ) {
@@ -184,6 +217,8 @@ class Variza_Admin {
 			'api_token'      => '',
 			'webhook_secret' => '',
 			'currency_unit'  => 'toman',
+			'card_mode'      => 'specific',
+			'card_last_4'    => '',
 		);
 
 		$saved = get_option( self::OPTION, array() );
@@ -208,6 +243,13 @@ class Variza_Admin {
 
 		$unit                      = isset( $_POST['variza_currency_unit'] ) ? sanitize_key( $_POST['variza_currency_unit'] ) : 'toman';
 		$settings['currency_unit'] = in_array( $unit, array( 'toman', 'rial' ), true ) ? $unit : 'toman';
+
+		$mode                    = isset( $_POST['variza_card_mode'] ) ? sanitize_key( $_POST['variza_card_mode'] ) : 'specific';
+		$settings['card_mode']   = in_array( $mode, array( 'specific', 'random', 'variza' ), true ) ? $mode : 'specific';
+
+		$raw_last_4 = isset( $_POST['variza_card_last_4'] ) ? wp_unslash( $_POST['variza_card_last_4'] ) : '';
+		$last_4              = is_string( $raw_last_4 ) ? preg_replace( '/\D/', '', $raw_last_4 ) : '';
+		$settings['card_last_4'] = ( is_string( $last_4 ) && 4 === strlen( $last_4 ) ) ? $last_4 : '';
 
 		update_option( self::OPTION, $settings );
 
@@ -263,6 +305,8 @@ class Variza_Admin {
 		.variza-admin__field{margin:14px 0;}
 		.variza-admin__field label,.variza-admin__label{display:block;font-weight:700;font-size:13px;color:#1f2937;margin-bottom:6px;}
 		.variza-admin__field input[type=password],.variza-admin__copy input[type=text]{width:100%;padding:11px 14px;border:1px solid #d1d5db;border-radius:10px;font-size:14px;direction:ltr;text-align:left;background:#f9fafb;}
+		.variza-admin__field select,.variza-admin__field input[type=text]{width:100%;padding:11px 14px;border:1px solid #d1d5db;border-radius:10px;font-size:14px;background:#f9fafb;}
+		.variza-admin__field select:focus,.variza-admin__field input[type=text]:focus{border-color:#10b981;outline:none;background:#fff;box-shadow:0 0 0 3px rgba(16,185,129,.15);}
 		.variza-admin__field input[type=password]:focus,.variza-admin__copy input[type=text]:focus{border-color:#10b981;outline:none;background:#fff;box-shadow:0 0 0 3px rgba(16,185,129,.15);}
 		.variza-admin__hint{font-size:12px;color:#6b7280;margin:6px 0 0;}
 		.variza-admin__hint b{color:#065f46;}
@@ -335,6 +379,15 @@ class Variza_Admin {
 				btn.setAttribute("aria-expanded", open ? "true" : "false");
 				body.hidden = !open;
 			});
+			var modeSelect = document.getElementById("variza_card_mode");
+			var last4Wrap = document.getElementById("variza_last4_wrap");
+			if (modeSelect && last4Wrap) {
+				var syncLast4 = function () {
+					last4Wrap.style.display = modeSelect.value === "specific" ? "" : "none";
+				};
+				modeSelect.addEventListener("change", syncLast4);
+				syncLast4();
+			}
 			var copyBtn = document.querySelector(".variza-admin__copy button");
 			if (copyBtn) {
 				copyBtn.addEventListener("click", function () {

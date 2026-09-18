@@ -4,7 +4,7 @@ Tags: payment gateway, woocommerce, card to card, iran, bank transfer
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -72,6 +72,9 @@ No; set the currency unit to "Rial" in the plugin settings and the amount will a
 More answers at [variza.ir/faq](https://variza.ir/faq).
 
 == Changelog ==
+
+= 1.2.0 =
+* Add "order destination card" section on the Variza admin page with three modes: specific card (with 4-digit input), random least-load card, and Variza cards (Toman wallet settlement withdrawable as USDT, no bank card needed, 2,000,000 Toman cap per link).
 
 = 1.1.0 =
 * Add "Smart load distribution" option (random card with least daily transactions) in gateway settings — sends `card_last_4: random` to API. Off by default, requires plan with random card feature and at least 2 active cards.
